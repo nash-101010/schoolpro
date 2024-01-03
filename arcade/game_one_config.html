@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="jquery.min.js"></script>
+  <style>
+* {margin: 0; padding: 0;}
+.h10{
+  height: 10px;
+
+}
+html {
+	height: 100%;
+	background:  #f3f5ff;
+}
+.fc{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+body {
+	font-family: montserrat, arial, verdana;
+}
+.h1_align{
+    text-align: center;
+    margin-bottom: 22px;
+    font-size: x-large;
+}
+#msform {
+	width: 400px;
+	margin: 50px auto;
+	text-align: center;
+	position: relative;
+}
+#msform fieldset {
+	background: white;
+	border: 0 none;
+	border-radius: 3px;
+	box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+	padding: 20px 30px;
+	box-sizing: border-box;
+	width: 80%;
+	margin: 0 10%;
+}
+#msform input{
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+	margin-bottom: 10px;
+	width: 100%;
+	box-sizing: border-box;
+	font-family: montserrat;
+	color: #2C3E50;
+	font-size: 13px;
+}
+#msform input[type="number"]{
+  padding: 0px!important;
+  border: none!important;
+  text-align: center;
+}
+/* #msform input::placeholder{
+  text-align: center!important;
+} */
+#msform input[type="range"]{
+  padding: 0!important;
+}
+#msform .action-button {
+	width: 100px;
+	background: #4766ff;
+	font-weight: bold;
+	color: white;
+	border: 0 none;
+	border-radius: 1px;
+	cursor: pointer;
+	padding: 10px;
+	margin: 10px 5px;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.fs-title {
+  text-align:justify;
+	font-size: 15px;
+	text-transform: uppercase;
+	color: #2C3E50;
+	margin-bottom: 10px;
+}
+#progressbar {
+	margin-bottom: 30px;
+	overflow: hidden;
+
+}
+#progressbar li {
+	list-style-type: none;
+	color: black;
+	text-transform: uppercase;
+	font-size: 9px;
+	width: 33.33%;
+	float: left;
+	position: relative;
+}
+#progressbar li:before {
+	/* counter-increment: step;
+	content: counter(step); */
+  content: ">";
+	width: 20px;
+	line-height: 20px;
+	display: block;
+	font-size: 10px;
+	color: #333;
+	background: white;
+	border-radius: 3px;
+	margin: 0 auto 5px auto;
+}
+#progressbar li:after {
+	content: '';
+	width: 100%;
+	height: 2px;
+	background: white;
+	position: absolute;
+	left: -50%;
+	top: 9px;
+	z-index: -1; 
+}
+#progressbar li:first-child:after {
+	content: none; 
+}
+#progressbar li.active:before,  #progressbar li.active:after{
+	background: #4766ff;
+	color: white;
+}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <form id="msform">
+      <ul id="progressbar">
+        <li class="active">設置玩家人數</li>
+        <li>調整初始角度</li>
+        <li>完成</li>
+      </ul>
+      <fieldset>
+        <h1 class="h1_align">大老二</h1>
+        <h2 class="fs-title">設置玩家人數</h2>
+        <input type="text" v-model="people" placeholder="輸入玩家人數" />
+        <div class="h10"></div>
+        <h2 class="fs-title">設置區</h2>
+        <div class="fc">
+          <input type="range" class="form-range" min="0" max="300" value="0" @input="postToApi" id="angle" v-model="angle">
+          <input type="number" v-model="angle" placeholder="目前初始角度">
+        </div>
+        <input type="button" name="next" class="next action-button" value="送出"  @click="button"/>
+      </fieldset>
+    </form>
+  </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+  // document.getbyid("#angle").addEventListener("input", function() {
+      
+  // })
+
+  var app = new Vue({
+    el: '#app',
+    data() {
+      return {
+        people: "",
+        angle: ""
+      }
+    },
+    methods: {
+      postToApi() {
+        console.log("sdf")
+      },
+      button() {
+        var array = {
+          userpeople: this.people,
+          userangle: this.angle
+        }
+        $.post("api.php", {
+          userangle: this.angle
+        })
+        $.post("api.php", {
+          userpeople: this.people
+        })
+      }
+    }
+  })
+</script>
+</html>
