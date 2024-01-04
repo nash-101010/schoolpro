@@ -5,6 +5,7 @@
   <title>Poker Game Modes</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="jquery.min.js"></script>
   <style>
 
 *,
@@ -154,6 +155,31 @@ ul{
   background-color: hsl(var(--hsl));
   box-shadow: 0 0 0 1px hsl(var(--hsl));
 }
+.btn_GO{
+  position: relative;
+  left: 90%;
+  display: flex;
+  margin: 0px 0px;
+  display: block;
+  align-self: end;
+  margin: 1em 0 0.5em 0;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background-color: #0d0d0d;
+  padding: 0.7em;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+.btn_GO:hover{
+  color: #fff;
+  background-color: #0d0d0d;
+  border-color: var(--bs-btn-hover-border-color);
+}
+a{
+  text-decoration: none;
+}
 
 :not(.overlay) > .card {
   transition: 400ms background ease;
@@ -167,54 +193,109 @@ ul{
   </style>
 </head>
 <body>
-
-
-  <main class="main flow">
-    <h1 class="main__heading">遊戲選擇</h1>
-    <div class="main__cards cards">
-      <div class="cards__inner">
-        <div class="cards__card card">
-          <h2 class="card__heading">遊戲一</h2>
-          <p class="card__price">大老二</p>
-          <ul role="list" class="card__bullets flow">
-            <li>1.最小張牌為梅花三</li>
-            <li>2.花色的大小順序是黑桃> 紅心> 方塊> 梅花</li>
-            <li>3.不可出同數值的三張</li>
-            <li>4.出一對時該輪也只能出一對直到大家都pass</li>
-            <li>5.首位出牌的玩家的牌需含有最小的牌</li>
-            <li>6.數字優先於花色</li>
-          </ul>
-          <a href="game_one_config.html" class="card__cta cta">開始遊戲</a>
+  <div id="app">
+    <main class="main flow">
+      <h1 class="main__heading">遊戲選擇</h1>
+      <a href="normal.html"><input type="button" class="btn btn_GO" value="模式切換" @click="ChangeMode"></a>
+      <div class="main__cards cards">
+        <div class="cards__inner">
+          <div class="cards__card card">
+            <h2 class="card__heading">遊戲一</h2>
+            <p class="card__price">大老二</p>
+            <ul role="list" class="card__bullets flow">
+              <li>1.最小張牌為梅花三</li>
+              <li>2.花色的大小順序是黑桃> 紅心> 方塊> 梅花</li>
+              <li>3.不可出同數值的三張</li>
+              <li>4.出一對時該輪也只能出一對直到大家都pass</li>
+              <li>5.首位出牌的玩家的牌需含有最小的牌</li>
+              <li>6.數字優先於花色</li>
+            </ul>
+            <a href="game_one_config.html" @click="game_one" class="card__cta cta">開始遊戲</a>
+          </div>
+    
+          <div class="cards__card card">
+            <h2 class="card__heading">遊戲二</h2>
+            <p class="card__price">抽鬼牌</p>
+            <ul role="list" class="card__bullets flow">
+              <li>1.放入鬼牌，和其他牌混合洗牌，平均發牌給每個人，牌要全部發完</li>
+              <li >2.每人先打出手上數字相同的牌，便可開始玩抽鬼牌</li>
+              <li>3.玩家同時向左邊的玩家抽一張牌，手裡有兩張相同的，就可丟入牌堆。最後手上留有鬼牌的玩家就是輸了</li>
+              <li>4.有鬼牌的人會想盡辦法令其他人抽到鬼牌，但又讓別人看穿自己的意圖</li>
+            </ul>
+            <a href="game_two_config.html" @click="game_two" class="card__cta cta">開始遊戲</a>
+          </div>
+    
+          <div class="cards__card card">
+            <h2 class="card__heading">遊戲三</h2>
+            <p class="card__price">21點</p>
+            <ul role="list" class="card__bullets flow">
+              <li>1.2~10的牌值以點數計算</li>
+              <li>2.J、Q、K的牌值以10點計算</li>
+              <li>3.Ace的牌值可記為11點或者1點</li>
+              <li>4.點數合計超過21點時，Ace自動以1點計算</li> 
+              <li>5.每位玩家手牌最多可補牌至5張</li>
+              <li>6.點數超過21點爆牌時停止補牌並輸掉該次比賽</li>
+            </ul>
+            <a href="game_three_config.html" @click="game_three" class="card__cta cta">開始遊戲</a>
+          </div>
         </div>
-  
-        <div class="cards__card card">
-          <h2 class="card__heading">遊戲二</h2>
-          <p class="card__price">抽鬼牌</p>
-          <ul role="list" class="card__bullets flow">
-            <li>1.放入鬼牌，和其他牌混合洗牌，平均發牌給每個人，牌要全部發完</li>
-            <li >2.每人先打出手上數字相同的牌，便可開始玩抽鬼牌</li>
-            <li>3.玩家同時向左邊的玩家抽一張牌，手裡有兩張相同的，就可丟入牌堆。最後手上留有鬼牌的玩家就是輸了</li>
-            <li>4.有鬼牌的人會想盡辦法令其他人抽到鬼牌，但又讓別人看穿自己的意圖</li>
-          </ul>
-          <a href="game_two_config.html" class="card__cta cta">開始遊戲</a>
-        </div>
-  
-        <div class="cards__card card">
-          <h2 class="card__heading">遊戲三</h2>
-          <p class="card__price">21點</p>
-          <ul role="list" class="card__bullets flow">
-            <li>1.2~10的牌值以點數計算</li>
-            <li>2.J、Q、K的牌值以10點計算</li>
-            <li>3.Ace的牌值可記為11點或者1點</li>
-            <li>4.點數合計超過21點時，Ace自動以1點計算</li> 
-            <li>5.每位玩家手牌最多可補牌至5張</li>
-            <li>6.點數超過21點爆牌時停止補牌並輸掉該次比賽</li>
-          </ul>
-          <a href="game_three_config.html" class="card__cta cta">開始遊戲</a>
-        </div>
-      </div>
-  </main>
+    </main>
+  </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+<script>
+  var api = "api.php"
+
+  var app = new Vue({
+    el: '#app',
+    data() {
+      return {
+        GameOne: "BigTwo",
+        GameTwo: "GhostCard",
+        GameThree: "TwentyOne",
+        mode_one: "game_mode",
+      }
+    },
+    methods: {
+      // postToApi() {
+      //   console.log("sdf")
+      // },
+      game_one () {
+        var array = {
+          game_mode: this.GameOne,
+        }
+        $.post(api, {
+          usergame: this.GameOne,
+        })
+      },
+      game_two () {
+        var array = {
+          game_mode: this.GameTwo
+        }
+        $.post(api, {
+          usergame: this.GameTwo
+        })
+      },
+      game_three () {
+        var array = {
+          game_mode: this.GameThree
+        }
+        $.post(api, {
+          usergame: this.GameThree
+        })
+      },
+      ChangeMode () {
+        var array = {
+          usermode_one: this.mode_one
+        }
+        $.post(api, {
+          usermode_one: this.mode_one
+        })
+        // this.router.push({name: 'normal.html'})
+      }
+    }
+  })
+</script>
 </body>
 </html>
